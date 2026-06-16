@@ -355,14 +355,28 @@ function navHtml() {
   return menu.map(item => `
     <div class="nav-item">
       <a class="nav-link ${active === item.key ? "active" : ""}" href="${routeTo(item.href)}">${tr(item.ko, item.en)}</a>
-      <div class="dropdown">
-        ${item.children.map(child => {
-          if (child[3] === "group") return `<span class="subgroup-title">${tr(child[0], child[1])}</span>`;
-          return `<a href="${routeTo(child[2])}">${tr(child[0], child[1])}</a>`;
-        }).join("")}
-      </div>
     </div>
   `).join("");
+}
+
+function megaHtml() {
+  return `
+    <div class="mega-menu" data-mega-menu>
+      <div class="mega-inner">
+        ${menu.map(item => `
+          <section class="mega-column">
+            <a class="mega-title" href="${routeTo(item.href)}">${tr(item.ko, item.en)}</a>
+            <div class="mega-links">
+              ${item.children.map(child => {
+                if (child[3] === "group") return "";
+                return `<a href="${routeTo(child[2])}">${tr(child[0], child[1])}</a>`;
+              }).join("")}
+            </div>
+          </section>
+        `).join("")}
+      </div>
+    </div>
+  `;
 }
 
 function drawerHtml() {
@@ -371,8 +385,7 @@ function drawerHtml() {
     <aside class="drawer" aria-label="Mobile menu">
       <div class="drawer-head">
         <a class="brand" href="${routeTo("/")}">
-          <span class="brand-mark">C</span>
-          <span><strong>CONCOST</strong><span>${L().tagline}</span></span>
+          <img class="brand-logo" src="${ASSET}/images/layout/concost-logo-horizontal.png" alt="CON COST">
         </a>
         <button class="icon-button" type="button" data-close-drawer aria-label="Close menu">X</button>
       </div>
@@ -396,15 +409,15 @@ function layout(content) {
     <header class="site-header">
       <div class="topbar">
         <a class="brand" href="${routeTo("/")}">
-          <span class="brand-mark">C</span>
-          <span><strong>CONCOST</strong><span>${L().tagline}</span></span>
+          <img class="brand-logo" src="${ASSET}/images/layout/concost-logo-horizontal.png" alt="CON COST">
         </a>
         <nav class="desktop-nav" aria-label="Primary">${navHtml()}</nav>
         <div class="header-actions">
-          <button class="lang-toggle" type="button" data-lang>${state.lang === "ko" ? "eng" : "kor"}</button>
-          <button class="menu-button" type="button" data-open-drawer aria-label="Open menu">☰</button>
+          <button class="lang-toggle" type="button" data-lang>${state.lang === "ko" ? "KOR" : "ENG"}</button>
+          <button class="menu-button" type="button" data-menu-toggle aria-label="Open menu"><span></span><span></span><span></span></button>
         </div>
       </div>
+      ${megaHtml()}
     </header>
     ${drawerHtml()}
     <main>${content}</main>
@@ -448,25 +461,33 @@ function footerHtml() {
 
 function homePage() {
   return layout(`
-    <section class="hero">
+    <section class="hero original-hero">
       <div class="hero-bg" style="background-image:url('${heroImages[state.heroIndex]}')"></div>
-      <div class="hero-inner">
-        <div class="eyebrow">${L().heroEyebrow}</div>
-        <h1>${L().heroTitle}</h1>
-        <p>${L().heroCopy}</p>
-        <div class="hero-actions">
-          <a class="button" href="${routeTo("/customer/cust1")}">${L().quote}</a>
-          <a class="button secondary" href="${routeTo("/business/bsn1?ca_id=010101")}">${L().business}</a>
-        </div>
-        <div class="quick-grid">
-          ${services.slice(0, 5).map(item => `
-            <a class="quick-card" href="${routeTo(item.path)}">
-              <strong>${item.title}</strong>
-              <span>${item.intro}</span>
-            </a>
-          `).join("")}
-        </div>
+      <div class="hero-grid-lines"></div>
+      <div class="hero-title-block">
+        <img class="hero-symbol" src="${ASSET}/images/main/vis-tit.png" alt="">
+        <h1>고객이 원하는 시간에 최상의 결과를 제공하자</h1>
+        <p>20여 년간의 경험을 바탕으로 최고를 꿈꾸며 세계 1위 견적기업을 만들겠습니다.</p>
       </div>
+      <ul class="visual-menu">
+        ${[
+          ["mn1", "수량산출", "개산견적, 내역 작성, 현장<br>물량 검증, 정미 수량 산출, BIM 산출", "/business/bsn1?ca_id=010101", "vis-ico1.png"],
+          ["mn2", "설계변경", "당초 / 변경 수량 산출 및<br>공사비 정산", "/business/bsn3?ca_id=0103", "vis-ico2.png"],
+          ["mn3", "해외/FED견적", "해외공사 BOQ작성<br>FED 내역 및 WBS내역서 작성", "/business/bsn5?ca_id=0105", "vis-ico3.png"],
+          ["mn4", "공사비 적정성 검토", "설계 예가 및 현장 실행가로 된<br>원가계산서 작성 및 검토", "/business/bsn2?ca_id=0102", "vis-ico4.png"],
+          ["mn5", "건설클레임", "공사비 분쟁과 관련된<br>수량 산출 및 감정", "/business/bsn4?ca_id=0104", "vis-ico5.png"]
+        ].map(item => `
+          <li class="${item[0]}">
+            <a href="${routeTo(item[3])}" class="visual-link" aria-label="${item[1]}"></a>
+            <img src="${ASSET}/images/main/${item[4]}" class="visual-icon" alt="">
+            <strong>${item[1]}</strong>
+            <span>${item[2]}</span>
+            <i></i>
+          </li>
+        `).join("")}
+      </ul>
+      <div class="hero-pager"><button class="active"></button><button></button><button></button></div>
+      <img class="hero-scroll" src="${ASSET}/images/main/vis-scroll.png" alt="">
     </section>
     <section class="section">
       <div class="container">
@@ -821,7 +842,7 @@ function bindEvents() {
     localStorage.setItem("concost:lang", state.lang);
     render();
   });
-  document.querySelector("[data-open-drawer]")?.addEventListener("click", openDrawer);
+  document.querySelector("[data-menu-toggle]")?.addEventListener("click", toggleMenu);
   document.querySelectorAll("[data-close-drawer]").forEach(el => el.addEventListener("click", closeDrawer));
   document.querySelector("[data-top]")?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
   document.querySelectorAll("[data-scroll-rail]").forEach(btn => btn.addEventListener("click", () => {
@@ -839,6 +860,15 @@ function bindEvents() {
     render();
   }));
   bindQuoteForm();
+}
+
+function toggleMenu() {
+  if (window.matchMedia("(max-width: 1024px)").matches) {
+    openDrawer();
+    return;
+  }
+  document.querySelector("[data-mega-menu]")?.classList.toggle("open");
+  document.querySelector("[data-menu-toggle]")?.classList.toggle("active");
 }
 
 function openDrawer() {
