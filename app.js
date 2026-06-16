@@ -440,19 +440,27 @@ function footerHtml() {
             <a href="${routeTo("/doc/private")}">개인정보처리방침</a>
           </div>
           <div class="sns">
-            <a href="#" aria-label="Facebook">f</a>
-            <a href="https://www.youtube.com/channel/UCiUVqgF9TAgkL36F-w4CGcg" target="_blank" rel="noreferrer">Y</a>
-            <a href="https://www.instagram.com/gongsabi_/" target="_blank" rel="noreferrer">I</a>
+            <a href="#" aria-label="Facebook"><img src="${ASSET}/images/layout/ft-sns-f.jpg" alt=""></a>
+            <a href="https://www.youtube.com/channel/UCiUVqgF9TAgkL36F-w4CGcg" target="_blank" rel="noreferrer"><img src="${ASSET}/images/layout/ft-sns-y.jpg" alt=""></a>
+            <a href="https://www.instagram.com/gongsabi_/" target="_blank" rel="noreferrer"><img src="${ASSET}/images/layout/ft-sns-i.jpg" alt=""></a>
           </div>
         </div>
       </div>
       <div class="footer-body">
         <address>
-          COMPANY : CONCOST CO.,Ltd<br>
-          CEO : David Hyun · 사업자등록번호 : 215-86-08383<br>
-          TEL : 02.2203.1463 · FAX : 02.2203.1464<br>
-          개인정보보호책임자 : 강동균 · JOBS : kdk1225@con-cost.com<br>
-          ADDRESS : 5F, Songwon Building, 6, Baekjegobun-ro 37-Gil, Songpa-gu, Seoul
+          <div class="footer-box">
+            COMPANY : CONCOST CO.,Ltd<br>
+            CEO : David Hyun<br>
+            사업자등록번호 : 215-86-08383<br>
+            TEL : 02.2203.1463<br>
+            FAX : 02.2203.1464
+          </div>
+          <div class="footer-box">
+            개인정보보호책임자 : 강동균<br>
+            JOBS : <a href="mailto:kdk1225@con-cost.com">kdk1225@con-cost.com</a><br>
+            INQUIRY : <a href="${routeTo("/customer/cust1")}">견적문의하기</a><br>
+            ADDRESS : 5F, Songwon Building, 6, Baekjegobun-ro 37-Gil, Songpa-gu, Seoul, REP. OF KOREA
+          </div>
         </address>
         <div>COPYRIGHT(c) 2018 CONCOST ALL RIGHT RESERVED</div>
       </div>
@@ -520,14 +528,14 @@ function homePage() {
         </div>
         <div class="lower-grid">
           <div class="gateway">
-            <a class="gate-link" href="${routeTo("/pr/pr2")}"><span class="gate-icon">P</span><strong>특허면허</strong></a>
-            <a class="gate-link accent" href="${routeTo("/pr/pr3")}"><span class="gate-icon">B</span><strong>Partners</strong></a>
-            <a class="gate-link dark" href="${routeTo("/pr/pr4")}"><span class="gate-icon">E</span><strong>E-Brochure</strong></a>
-            <a class="gate-link slate" href="${routeTo("/customer/cust1")}"><span class="gate-icon">Q</span><strong>견적요청</strong></a>
+            <a class="gate-link" href="${routeTo("/pr/pr2")}"><img src="${ASSET}/images/main/gate-ico1.jpg" alt=""><strong>특허면허</strong></a>
+            <a class="gate-link accent" href="${routeTo("/pr/pr3")}"><img src="${ASSET}/images/main/gate-ico2.jpg" alt=""><strong>Partners</strong></a>
+            <a class="gate-link dark" href="${routeTo("/pr/pr4")}"><img src="${ASSET}/images/main/gate-ico3.jpg" alt=""><strong>E-Brochure</strong></a>
+            <a class="gate-link slate" href="${routeTo("/customer/cust1")}"><img src="${ASSET}/images/main/gate-ico4.jpg" alt=""><strong>견적요청</strong></a>
           </div>
           <div class="contact-box">
-            <div class="contact-panel"><strong>대표전화</strong><div class="tel">02.2203.1463</div><div>FAX 02.2203.1464, 1468</div></div>
-            <a class="recruit-panel" href="${routeTo("/customer/cust2")}"><strong>인재채용</strong><span>CONCOST와 함께 꿈을 키워갈 인재를 기다립니다.</span></a>
+            <div class="contact-panel"><strong>대표전화</strong><div class="tel">02.2203.1463</div><div class="fax">02.2203.1464, 1468</div><img src="${ASSET}/images/main/gate-ico5.jpg" alt=""></div>
+            <a class="recruit-panel" href="${routeTo("/customer/cust2")}"><strong>인재채용</strong><span>CONCOST와 함께 꿈을 키워갈 <br>인재를 기다립니다.</span><img src="${ASSET}/images/main/gate-ico6.jpg" alt=""></a>
           </div>
           <div class="board-card news-card">
             <div class="news-head"><h2>News</h2><a class="news-more" href="${routeTo("/pr/pr1")}" aria-label="More news">+</a></div>
