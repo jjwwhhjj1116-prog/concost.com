@@ -3,6 +3,7 @@ const ASSET = ".";
 const state = {
   lang: localStorage.getItem("concost:lang") || "ko",
   heroIndex: 0,
+  businessPage: 0,
   page: 1,
   search: ""
 };
@@ -353,7 +354,7 @@ function navHtml() {
   const { path } = parseRoute();
   const active = activeKey(path);
   return menu.map(item => `
-    <div class="nav-item">
+    <div class="nav-item" data-menu-key="${item.key}">
       <a class="nav-link ${active === item.key ? "active" : ""}" href="${routeTo(item.href)}">${tr(item.ko, item.en)}</a>
     </div>
   `).join("");
@@ -364,7 +365,7 @@ function megaHtml() {
     <div class="mega-menu" data-mega-menu>
       <div class="mega-inner">
         ${menu.map(item => `
-          <section class="mega-column">
+          <section class="mega-column" data-mega-key="${item.key}">
             <a class="mega-title" href="${routeTo(item.href)}">${tr(item.ko, item.en)}</a>
             <div class="mega-links">
               ${item.children.map(child => {
@@ -414,7 +415,7 @@ function layout(content) {
         <nav class="desktop-nav" aria-label="Primary">${navHtml()}</nav>
         <div class="header-actions">
           <button class="lang-toggle" type="button" data-lang>${state.lang === "ko" ? "KOR" : "ENG"}</button>
-          <button class="menu-button" type="button" data-menu-toggle aria-label="Open menu"><span></span><span></span><span></span></button>
+          <button class="menu-button" type="button" data-menu-toggle data-tip="전체 메뉴" aria-label="Open menu"><span></span><span></span><span></span></button>
         </div>
       </div>
       ${megaHtml()}
@@ -489,19 +490,20 @@ function homePage() {
       <div class="hero-pager"><button class="active"></button><button></button><button></button></div>
       <img class="hero-scroll" src="${ASSET}/images/main/vis-scroll.png" alt="">
     </section>
-    <section class="section">
+    <section class="section business-section">
       <div class="container">
-        <div class="section-head">
-          <div>
+        <div class="business-head">
             <h2>CONCOST Business</h2>
             <p>개산견적, 현장 물량 검증, 정미 수량 산출, BIM 산출, 공사비 적정성 검토 등 원본 메인 업무 영역을 동일하게 구성했습니다.</p>
-          </div>
-          <div>
-            <button class="icon-button" data-scroll-rail="-1" aria-label="Previous">‹</button>
-            <button class="icon-button" data-scroll-rail="1" aria-label="Next">›</button>
-          </div>
         </div>
-        <div class="business-rail"><div class="business-track" data-rail>${services.map(serviceCard).join("")}</div></div>
+        <div class="business-stage">
+          <div class="business-controls" data-business-controls>
+            <button class="carousel-button" type="button" data-business-step="-1" data-tip="이전 업무" aria-label="Previous business">‹</button>
+            <button class="carousel-button" type="button" data-business-step="1" data-tip="다음 업무" aria-label="Next business">›</button>
+          </div>
+          <div class="business-rail" data-business-rail><div class="business-track" data-business-track>${services.map(serviceCard).join("")}</div></div>
+        </div>
+        <div class="business-dots" data-business-dots></div>
       </div>
     </section>
     <section class="section alt">
@@ -543,9 +545,9 @@ function homePage() {
 
 function serviceCard(item) {
   return `
-    <a class="service-card" href="${routeTo(item.path)}">
+    <a class="service-card" href="${routeTo(item.path)}" data-tip="${item.title} 상세보기">
       <img src="${item.img}" alt="">
-      <div class="body"><h3>${item.title}</h3><p>${item.intro}</p></div>
+      <div class="body"><h3>${item.title}</h3><p>${item.intro}</p><span class="more-view">MORE VIEW</span></div>
     </a>
   `;
 }
@@ -843,12 +845,23 @@ function bindEvents() {
     render();
   });
   document.querySelector("[data-menu-toggle]")?.addEventListener("click", toggleMenu);
+  document.querySelector("[data-menu-toggle]")?.addEventListener("mouseenter", () => openMega(activeKey(parseRoute().path)));
+  document.querySelector(".site-header")?.addEventListener("mouseleave", closeMega);
+  document.querySelectorAll("[data-menu-key]").forEach(item => {
+    item.addEventListener("mouseenter", () => openMega(item.dataset.menuKey));
+    item.addEventListener("focusin", () => openMega(item.dataset.menuKey));
+  });
+  document.querySelectorAll("[data-mega-key]").forEach(item => {
+    item.addEventListener("mouseenter", () => setMegaActive(item.dataset.megaKey));
+    item.addEventListener("focusin", () => setMegaActive(item.dataset.megaKey));
+  });
   document.querySelectorAll("[data-close-drawer]").forEach(el => el.addEventListener("click", closeDrawer));
   document.querySelector("[data-top]")?.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
-  document.querySelectorAll("[data-scroll-rail]").forEach(btn => btn.addEventListener("click", () => {
-    const rail = document.querySelector("[data-rail]");
-    if (rail) rail.scrollBy({ left: Number(btn.dataset.scrollRail) * rail.clientWidth * 0.85, behavior: "smooth" });
+  document.querySelectorAll("[data-business-step]").forEach(btn => btn.addEventListener("click", () => {
+    moveBusinessCarousel(Number(btn.dataset.businessStep));
   }));
+  bindParallax();
+  updateBusinessCarousel();
   document.querySelector("[data-board-search]")?.addEventListener("submit", event => {
     event.preventDefault();
     state.search = new FormData(event.currentTarget).get("keyword") || "";
@@ -867,8 +880,97 @@ function toggleMenu() {
     openDrawer();
     return;
   }
-  document.querySelector("[data-mega-menu]")?.classList.toggle("open");
-  document.querySelector("[data-menu-toggle]")?.classList.toggle("active");
+  const mega = document.querySelector("[data-mega-menu]");
+  if (mega?.classList.contains("open")) closeMega();
+  else openMega(activeKey(parseRoute().path));
+}
+
+function openMega(key = activeKey(parseRoute().path)) {
+  if (window.matchMedia("(max-width: 1024px)").matches) return;
+  document.querySelector("[data-mega-menu]")?.classList.add("open");
+  document.querySelector("[data-menu-toggle]")?.classList.add("active");
+  setMegaActive(key);
+}
+
+function closeMega() {
+  document.querySelector("[data-mega-menu]")?.classList.remove("open");
+  document.querySelector("[data-menu-toggle]")?.classList.remove("active");
+  setMegaActive("");
+}
+
+function setMegaActive(key) {
+  document.querySelectorAll("[data-menu-key]").forEach(el => el.classList.toggle("is-active", el.dataset.menuKey === key));
+  document.querySelectorAll("[data-mega-key]").forEach(el => el.classList.toggle("is-active", el.dataset.megaKey === key));
+}
+
+function businessVisibleCount() {
+  if (window.matchMedia("(max-width: 640px)").matches) return 1;
+  if (window.matchMedia("(max-width: 1024px)").matches) return 2;
+  return 4;
+}
+
+function maxBusinessPage() {
+  return Math.max(0, services.length - businessVisibleCount());
+}
+
+function setBusinessPage(page) {
+  state.businessPage = Math.max(0, Math.min(page, maxBusinessPage()));
+  updateBusinessCarousel();
+}
+
+function moveBusinessCarousel(step) {
+  setBusinessPage(state.businessPage + step);
+}
+
+function updateBusinessCarousel() {
+  const track = document.querySelector("[data-business-track]");
+  const dots = document.querySelector("[data-business-dots]");
+  if (!track) return;
+  const max = maxBusinessPage();
+  state.businessPage = Math.min(state.businessPage, max);
+  const firstCard = track.querySelector(".service-card");
+  const gap = Number.parseFloat(getComputedStyle(track).columnGap || "0");
+  const offset = firstCard ? (firstCard.getBoundingClientRect().width + gap) * state.businessPage : 0;
+  track.style.setProperty("--business-page", state.businessPage);
+  track.style.setProperty("--business-offset", `${offset}px`);
+  document.querySelectorAll("[data-business-step]").forEach(btn => {
+    const step = Number(btn.dataset.businessStep);
+    btn.disabled = step < 0 ? state.businessPage === 0 : state.businessPage === max;
+  });
+  if (dots) {
+    dots.innerHTML = Array.from({ length: max + 1 }, (_, index) => `
+      <button type="button" class="${index === state.businessPage ? "active" : ""}" data-business-dot="${index}" aria-label="Business page ${index + 1}"></button>
+    `).join("");
+    dots.querySelectorAll("[data-business-dot]").forEach(btn => btn.addEventListener("click", () => setBusinessPage(Number(btn.dataset.businessDot))));
+  }
+}
+
+function bindParallax() {
+  const hero = document.querySelector(".original-hero");
+  if (!hero || hero.dataset.parallaxBound) return;
+  hero.dataset.parallaxBound = "true";
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const applyScroll = () => {
+    const bg = document.querySelector(".original-hero .hero-bg");
+    if (!bg) return;
+    const rect = hero.getBoundingClientRect();
+    const offset = Math.max(-80, Math.min(80, rect.top * -0.08));
+    bg.style.transform = `translate3d(0, ${offset}px, 0) scale(1.04)`;
+  };
+  hero.addEventListener("mousemove", event => {
+    const rect = hero.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width - 0.5;
+    const y = (event.clientY - rect.top) / rect.height - 0.5;
+    hero.style.setProperty("--parallax-x", `${x * 14}px`);
+    hero.style.setProperty("--parallax-y", `${y * 10}px`);
+  });
+  hero.addEventListener("mouseleave", () => {
+    hero.style.setProperty("--parallax-x", "0px");
+    hero.style.setProperty("--parallax-y", "0px");
+  });
+  window.addEventListener("scroll", applyScroll, { passive: true });
+  window.addEventListener("resize", updateBusinessCarousel);
+  applyScroll();
 }
 
 function openDrawer() {
