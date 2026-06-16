@@ -506,37 +506,33 @@ function homePage() {
         <div class="business-dots" data-business-dots></div>
       </div>
     </section>
-    <section class="section alt">
-      <div class="container banner-pair">
-        <a class="feature-banner" href="${routeTo("/cad/cad1")}" style="background-image:url('${ASSET}/images/main/banner1.jpg')">
-          <h3>CAD 적산 프로그램이란</h3>
-          <p>CAD 도면에 산출 정보들을 입력하여 산출 수량 추적 및 결과 검증이 가능한 당사 개발 프로그램입니다.</p>
-        </a>
-        <a class="feature-banner" href="${routeTo("/cad/cad2")}" style="background-image:url('${ASSET}/images/main/banner2.jpg')">
-          <h3>CAD 적산 사용 매뉴얼</h3>
-          <p>작성된 CAD도면을 현장관리 및 운영에 활용할 수 있는 프로그램입니다.</p>
-        </a>
-      </div>
-    </section>
-    <section class="section">
-      <div class="container">
-        <div class="gateway">
-          <a class="gate-link" href="${routeTo("/pr/pr2")}"><strong>특허면허</strong><span class="gate-icon">P</span></a>
-          <a class="gate-link" href="${routeTo("/pr/pr3")}"><strong>Partners</strong><span class="gate-icon">B</span></a>
-          <a class="gate-link" href="${routeTo("/pr/pr4")}"><strong>E-Brochure</strong><span class="gate-icon">E</span></a>
-          <a class="gate-link" href="${routeTo("/customer/cust1")}"><strong>견적요청</strong><span class="gate-icon">Q</span></a>
+    <section class="home-lower">
+      <div class="container lower-container">
+        <div class="banner-pair">
+          <a class="feature-banner" href="${routeTo("/cad/cad1")}" style="background-image:url('${ASSET}/images/main/banner1.jpg')">
+            <h3>CAD 적산 프로그램이란</h3>
+            <p>CAD 도면에 산출 정보들을 입력하여 산출 수량 추적 및 결과 검증이 가능한 당사 개발 프로그램입니다.</p>
+          </a>
+          <a class="feature-banner" href="${routeTo("/cad/cad2")}" style="background-image:url('${ASSET}/images/main/banner2.jpg')">
+            <h3>CAD 적산 사용 매뉴얼</h3>
+            <p>작성된 CAD도면을 현장관리 및 운영에 활용할 수 있는 프로그램입니다.</p>
+          </a>
         </div>
-      </div>
-    </section>
-    <section class="section alt">
-      <div class="container latest-grid">
-        <div class="board-card">
-          <div class="section-head"><h2>News</h2><a class="button ghost" href="${routeTo("/pr/pr1")}">More</a></div>
-          <ul class="news-list">${news.slice(0, 6).map(item => `<li><a href="${routeTo(`/pr/pr1?idx=${item.id}`)}">${item.title}</a><time>${item.date}</time></li>`).join("")}</ul>
-        </div>
-        <div class="contact-box">
-          <div class="contact-panel"><strong>대표전화</strong><div class="tel">02.2203.1463</div><div>FAX 02.2203.1464, 1468</div></div>
-          <a class="gate-link" href="${routeTo("/customer/cust2")}"><strong>인재채용</strong><span>CONCOST와 함께 꿈을 키워갈 인재를 기다립니다.</span></a>
+        <div class="lower-grid">
+          <div class="gateway">
+            <a class="gate-link" href="${routeTo("/pr/pr2")}"><span class="gate-icon">P</span><strong>특허면허</strong></a>
+            <a class="gate-link accent" href="${routeTo("/pr/pr3")}"><span class="gate-icon">B</span><strong>Partners</strong></a>
+            <a class="gate-link dark" href="${routeTo("/pr/pr4")}"><span class="gate-icon">E</span><strong>E-Brochure</strong></a>
+            <a class="gate-link slate" href="${routeTo("/customer/cust1")}"><span class="gate-icon">Q</span><strong>견적요청</strong></a>
+          </div>
+          <div class="contact-box">
+            <div class="contact-panel"><strong>대표전화</strong><div class="tel">02.2203.1463</div><div>FAX 02.2203.1464, 1468</div></div>
+            <a class="recruit-panel" href="${routeTo("/customer/cust2")}"><strong>인재채용</strong><span>CONCOST와 함께 꿈을 키워갈 인재를 기다립니다.</span></a>
+          </div>
+          <div class="board-card news-card">
+            <div class="news-head"><h2>News</h2><a class="news-more" href="${routeTo("/pr/pr1")}" aria-label="More news">+</a></div>
+            <ul class="news-list">${news.slice(0, 6).map(item => `<li><a href="${routeTo(`/pr/pr1?idx=${item.id}`)}">${item.title}</a><time>${item.date}</time></li>`).join("")}</ul>
+          </div>
         </div>
       </div>
     </section>
