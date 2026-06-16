@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <title>CON COST</title>
+    <script>
+      var repo = "concost.com";
+      var parts = location.pathname.split("/").filter(Boolean);
+      var hasProjectBase = parts[0] === repo;
+      var base = hasProjectBase ? "/" + repo : "";
+      var rest = hasProjectBase ? parts.slice(1) : parts;
+      var target = base + "/#/" + rest.join("/");
+      if (location.search) target += location.search;
+      if (location.hash) target += location.hash;
+      location.replace(target);
+    </script>
+  </head>
+  <body>
+    <a href="./">CON COST</a>
+  </body>
+</html>
