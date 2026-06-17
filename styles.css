@@ -2329,6 +2329,7 @@ textarea {
   text-align: center;
   white-space: nowrap;
   box-sizing: border-box;
+  transition: margin 0.12s ease, font-size 0.12s ease, line-height 0.12s ease;
 }
 
 .visual-menu span {
@@ -2346,6 +2347,7 @@ textarea {
   overflow-wrap: break-word;
   text-align: center;
   box-sizing: border-box;
+  transition: margin 0.12s ease, font-size 0.12s ease, line-height 0.12s ease;
 }
 
 .visual-menu li::after {
@@ -2359,6 +2361,7 @@ textarea {
   margin-left: -13px;
   content: "";
   background: url("./images/main/vis-more.png") no-repeat center / contain;
+  transition: width 0.12s ease, height 0.12s ease, bottom 0.12s ease, margin 0.12s ease;
 }
 
 .visual-menu li:hover {
@@ -2375,12 +2378,27 @@ textarea {
 }
 
 .visual-menu li:hover strong {
-  width: 140px;
-  margin: 31px auto 0;
+  width: 178px;
+  margin: 27px auto 0;
+  margin-left: -7px;
   padding: 0;
-  font-size: 17px;
-  line-height: 1.2;
+  font-size: 22px;
+  line-height: 1.15;
   white-space: normal;
+}
+
+.visual-menu li:hover span {
+  width: 178px;
+  margin-left: -7px;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.visual-menu li:hover::after {
+  bottom: -5px;
+  width: 31px;
+  height: 32px;
+  margin-left: -16px;
 }
 
 .visual-menu li:hover span,
