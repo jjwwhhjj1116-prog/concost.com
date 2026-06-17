@@ -2220,11 +2220,12 @@ textarea {
 .hero-title-block {
   position: absolute;
   top: 105px;
-  left: 0;
+  left: 50%;
   z-index: 3;
-  width: 100%;
+  width: min(100%, 1180px);
+  max-width: calc(100% - 40px);
   text-align: center;
-  transform: translate3d(calc(var(--parallax-x, 0px) * -0.25), calc(var(--parallax-y, 0px) * -0.25), 0);
+  transform: translate3d(calc(-50% + (var(--parallax-x, 0px) * -0.25)), calc(var(--parallax-y, 0px) * -0.25), 0);
   transition: transform 0.12s ease-out;
   will-change: transform;
 }
@@ -2237,7 +2238,9 @@ textarea {
 }
 
 .hero-title-block h1 {
-  margin: 15px 0 0;
+  width: 100%;
+  max-width: none;
+  margin: 15px auto 0;
   color: #fff;
   font-size: 40px;
   font-weight: 300;
@@ -2247,7 +2250,9 @@ textarea {
 }
 
 .hero-title-block p {
-  margin: 10px 0 0;
+  width: 100%;
+  max-width: none;
+  margin: 10px auto 0;
   color: #fff;
   font-size: 19px;
   font-weight: 400;
@@ -2315,31 +2320,37 @@ textarea {
   z-index: 2;
   display: block;
   margin-top: 5px;
+  padding: 0;
   color: #fff;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
+  line-height: 1.25;
   letter-spacing: 0;
+  text-align: center;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 
 .visual-menu span {
   position: relative;
-  left: 50%;
   z-index: 2;
   display: none;
-  width: 220px;
-  margin-top: 5px;
-  margin-left: -110px;
+  width: 136px;
+  margin: 6px auto 0;
   color: #fff;
-  font-size: 14px;
+  font-size: 10px;
   font-weight: 200;
-  line-height: 20px;
+  line-height: 1.35;
   letter-spacing: 0;
-  white-space: nowrap;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .visual-menu li::after {
   position: absolute;
-  bottom: 10px;
+  bottom: 4px;
   left: 50%;
   z-index: 2;
   display: none;
@@ -2364,8 +2375,12 @@ textarea {
 }
 
 .visual-menu li:hover strong {
-  margin-top: 35px;
-  font-size: 22px;
+  width: 140px;
+  margin: 31px auto 0;
+  padding: 0;
+  font-size: 17px;
+  line-height: 1.2;
+  white-space: normal;
 }
 
 .visual-menu li:hover span,
