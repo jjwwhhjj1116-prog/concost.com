@@ -405,9 +405,10 @@ function drawerHtml() {
   `;
 }
 
-function layout(content) {
+function layout(content, options = {}) {
+  const isSub = options.sub === true;
   return `
-    <header class="site-header">
+    <header class="site-header ${isSub ? "sub-header" : ""}">
       <div class="topbar">
         <a class="brand" href="${routeTo("/")}">
           <img class="brand-logo" src="${ASSET}/images/layout/concost-logo-horizontal.png" alt="CON COST">
@@ -558,14 +559,42 @@ function serviceCard(item) {
 
 function subShell(sectionKo, sectionEn, titleKo, titleEn, copyKo, copyEn, visual, body) {
   return layout(`
-    <section class="sub-hero" style="--sub-image:url('${ASSET}/images/sub/${visual}')">
-      <div class="container">
-        <div class="breadcrumb"><span>HOME</span><span>${tr(sectionKo, sectionEn)}</span><span>${tr(titleKo, titleEn)}</span></div>
-        <div class="sub-title"><h1>${tr(titleKo, titleEn)}</h1><p>${tr(copyKo, copyEn)}</p></div>
+    ${subNaviHtml(sectionKo, titleKo)}
+    <section class="sub-visual">
+      <img src="${ASSET}/images/sub/${visual}" alt="">
+    </section>
+    <section class="sub-content">
+      <div id="subCont">
+        <div class="sub-page-title"><h3>${tr(titleKo, titleEn)}</h3></div>
+        ${body}
       </div>
     </section>
-    <section class="section"><div class="container">${body}</div></section>
-  `);
+  `, { sub: true });
+}
+
+function subNaviHtml(sectionKo, titleKo) {
+  const { path } = parseRoute();
+  const activeTop = menu.find(item => item.key === activeKey(path)) || menu[0];
+  const topLinks = menu.map(item => `<li class="${item.key === activeTop.key ? "active" : ""}"><a href="${routeTo(item.href)}">${tr(item.ko, item.en)}</a></li>`).join("");
+  const childLinks = activeTop.children
+    .filter(child => child[3] !== "group")
+    .map(child => `<li class="${child[2] === path ? "active" : ""}"><a href="${routeTo(child[2])}">${tr(child[0], child[1])}</a></li>`)
+    .join("");
+  return `
+    <nav class="sub-navi" aria-label="Breadcrumb">
+      <div class="sub-navi-inner">
+        <span class="home"><a href="${routeTo("/")}">HOME</a></span>
+        <span class="dep">
+          <button type="button">${tr(activeTop.ko, activeTop.en)}</button>
+          <ul>${topLinks}</ul>
+        </span>
+        <span class="dep">
+          <button type="button">${tr(titleKo, titleKo)}</button>
+          <ul>${childLinks}</ul>
+        </span>
+      </div>
+    </nav>
+  `;
 }
 
 function companyPage(path) {
@@ -623,13 +652,34 @@ function companyPage(path) {
     `);
   }
   return subShell("회사소개", "Company", "대표이사 인사말", "CEO Message", "컨코스트는 지난 30년 동안 견적이라는 한 길만 걸어온 대한민국 No.1 견적회사입니다.", "CEO message.", "sub-visual1.jpg", `
-    <div class="info-card">
-      <h3>대표이사 인사말</h3>
-      <p>컨코스트를 찾아주신 여러분들 진심으로 환영합니다. 컨코스트는 지난 30년 동안 견적이라는 한 길만 걸어온 대한민국 No.1 견적회사입니다.</p>
-      <p>이제 컨코스트는 견적뿐만 아니라, 세계를 무대로 공사비 컨설팅회사로서 새롭게 도약하고자 합니다.</p>
-      <p>[인재와 품질을 통한 High Quality 실현]이라는 경영이념 아래 고객만족을 최우선으로 하는 프로젝트 관리, 차별화된 전문인력 양성 및 보유, 풍부한 경험을 바탕으로 축적된 기술 노하우를 제공합니다.</p>
-      <p>특히 당사가 직접 개발한 CAD적산 프로그램은 국내 견적업계의 기술력을 한층 업그레이드했다는 평을 받고 있습니다.</p>
-      <img src="${ASSET}/images/sub/aboutus-sign.png" alt="대표이사 서명" class="sign-image">
+    <div class="aboutus">
+      <h3>
+        컨코스트는 지난 30년 동안 견적이라는<br>
+        한 길만 걸어온 <strong>대한민국 No.1 견적회사</strong>입니다.
+      </h3>
+      <p>
+        컨코스트를 찾아주신 여러분들 진심으로 환영합니다.<br>
+        컨코스트는 지난 30년 동안 견적이라는 한 길만 걸어온 <strong>대한민국 No.1 견적회사</strong>입니다.<br>
+        이제 컨코스트는 견적뿐만 아니라, 세계를 무대로 공사비 컨설팅회사로서 새롭게 도약하고자 합니다.
+      </p>
+      <p>
+        [인재와 품질을 통한 High Quality 실현]이라는 경영이념 아래,<br>
+        고객만족을 최우선으로 하는 <strong>프로젝트 관리</strong>와 <strong>차별화된 전문인력 양성 및 보유,</strong><br><br>
+        풍부한 경험을 바탕으로 축적된 기술 노하우는 국내ㆍ외에서 이미 인정받고 있습니다.<br>
+        특히 건축견적부분을 시스템화 하기 위해 당사가 직접 개발한 <strong>‘CAD적산 프로그램’</strong>은<br>
+        국내 견적업계의 기술력을 한층 업그레이드 시켰다는 평을 받고 있습니다.
+      </p>
+      <p>
+        국내에서 입지를 굳건히 다진 컨코스트는 2018년 <strong>베트남에 제 1호 해외지사를 설립</strong>하여<br>
+        글로벌기업으로 도약할 수 있는 발판을 마련하였고,<br>
+        현재 또 다른 세계시장에서 제 2호, 제 3호 지사의 설립을 연구하는 등<br>
+        세계무대에서 그 행보가 더욱 빨라지고 있습니다.<br>
+        앞으로도 컨코스트는 끊임없는 변화와 혁신, 그리고 창의적인 도전을 통해<br>
+        세계 제일의 <strong><span class="red">Con</span>struction <span class="red">Cost</span></strong> 컨설팅회사로 거듭나겠습니다.<br>
+        또한 초심을 잃지 않고 단 한분의 고객만족도 놓치지 않게 최선을 다하겠습니다.<br>
+        감사합니다.
+      </p>
+      <span class="sign"><img src="${ASSET}/images/sub/aboutus-sign.png" alt=""></span>
     </div>
   `);
 }

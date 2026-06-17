@@ -1090,6 +1090,205 @@ button {
   color: #fff;
 }
 
+.sub-header {
+  background: #eb6300;
+}
+
+.sub-header::after {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.sub-header .brand {
+  width: 140px;
+  background: url("./images/layout/logo2.png") no-repeat 0 0;
+}
+
+.sub-header .brand-logo {
+  opacity: 0;
+}
+
+.sub-header .nav-link {
+  color: #f9b98a;
+}
+
+.sub-header .nav-item:hover .nav-link,
+.sub-header .nav-item.is-active .nav-link,
+.sub-header .nav-link.active {
+  color: #fff;
+}
+
+.sub-header .lang-toggle {
+  color: #fff;
+  background:
+    url("./images/layout/hd-lan-ico2.png") no-repeat 0 center,
+    url("./images/layout/hd-lan-spr2.png") no-repeat right center;
+}
+
+.sub-header .menu-button span {
+  background: #fff;
+}
+
+.sub-navi {
+  border-bottom: 1px solid #ddd;
+  background: #fff;
+}
+
+.sub-navi-inner {
+  width: 1054px;
+  margin: 0 auto;
+  font-size: 0;
+}
+
+.sub-navi span {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  border-right: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.sub-navi span.home {
+  width: 60px;
+  height: 50px;
+  line-height: 50px;
+  font-size: 0;
+  border-left: 1px solid #ddd;
+  background: #fff url("./images/layout/navi-home.png") no-repeat 50% 50%;
+}
+
+.sub-navi span.home a {
+  display: block;
+  height: 100%;
+}
+
+.sub-navi button {
+  min-width: 220px;
+  height: 50px;
+  padding: 0 55px 0 25px;
+  color: #333;
+  font-size: 16px;
+  line-height: 50px;
+  text-align: left;
+  background: #fff url("./images/layout/navi-arrow.png") no-repeat 90% 50%;
+  border: 0;
+  border-radius: 0;
+  box-sizing: border-box;
+}
+
+.sub-navi ul {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  z-index: 90;
+  display: none;
+  width: 100%;
+  background: #eee;
+  border-bottom: 2px solid #e55600;
+}
+
+.sub-navi .dep:hover ul,
+.sub-navi .dep:focus-within ul {
+  display: block;
+}
+
+.sub-navi li a {
+  display: block;
+  padding: 13px 25px;
+  color: #333;
+  font-size: 16px;
+  text-decoration: none;
+  border-top: 1px solid #ccc;
+}
+
+.sub-navi li.active a,
+.sub-navi li a:hover {
+  color: #fff;
+  background: #eb6300;
+}
+
+.sub-visual {
+  position: relative;
+  height: 280px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.sub-visual img {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: -1;
+  margin-left: -960px;
+}
+
+.sub-content {
+  position: relative;
+  width: 1054px;
+  margin: 70px auto 120px;
+}
+
+.sub-page-title {
+  position: relative;
+  padding-bottom: 20px;
+  margin-bottom: 50px;
+  border-bottom: 1px solid #ddd;
+}
+
+.sub-page-title h3 {
+  margin: 10px 0 0;
+  color: #444;
+  font-size: 35px;
+  font-weight: 300;
+  letter-spacing: 0;
+  text-align: center;
+}
+
+.aboutus {
+  position: relative;
+  min-height: 580px;
+  padding-right: 270px;
+}
+
+.aboutus h3 {
+  margin: 0 0 25px;
+  color: #333;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 48px;
+  letter-spacing: 0;
+}
+
+.aboutus p {
+  margin: 0 0 20px;
+  color: #666;
+  font-size: 17px;
+  line-height: 33px;
+  letter-spacing: 0;
+}
+
+.aboutus p strong {
+  color: #000;
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 33px;
+}
+
+.aboutus p span {
+  color: #e76212;
+  font-size: 17px;
+  font-weight: 300;
+  line-height: 33px;
+}
+
+.aboutus .sign {
+  display: block;
+  margin-top: 25px;
+}
+
+.aboutus .sign img {
+  display: block;
+}
+
 .sub-title p {
   color: #e6edf7;
 }
@@ -2366,4 +2565,41 @@ textarea {
   .visual-menu .mn3 { left: 225px; top: 0; }
   .visual-menu .mn4 { left: 68px; top: 72px; }
   .visual-menu .mn5 { left: 173px; top: 72px; }
+}
+
+@media (min-width: 1025px) {
+  .site-header.sub-header {
+    background: #eb6300;
+  }
+
+  .site-header.sub-header .brand {
+    width: 140px;
+    background: url("./images/layout/logo2.png") no-repeat 0 0;
+  }
+
+  .site-header.sub-header .brand-logo {
+    opacity: 0;
+  }
+
+  .site-header.sub-header .nav-link {
+    color: #f9b98a;
+  }
+
+  .site-header.sub-header .nav-item:hover .nav-link,
+  .site-header.sub-header .nav-item.is-active .nav-link,
+  .site-header.sub-header .nav-link.active {
+    color: #fff;
+  }
+
+  .site-header.sub-header .lang-toggle {
+    color: #fff;
+    background:
+      url("./images/layout/hd-lan-ico2.png") no-repeat 0 center,
+      url("./images/layout/hd-lan-spr2.png") no-repeat right center;
+  }
+
+  .site-header.sub-header .menu-button span,
+  .site-header.sub-header .menu-button.active span {
+    background: #fff;
+  }
 }
